@@ -17,9 +17,10 @@ return new class extends Migration
             $table->foreignId('id_pengguna')->nullable();
             $table->date('tgl_peminjaman')->nullable();
             $table->date('tgl_pengembalian')->nullable();
-            $table->string('jml_buku_pinjam')->nullable();
+            $table->string('jml_buku_pinjam',4)->nullable();
             $table->foreignId('id_admin')->nullable();
-            $table->enum('status', ['Y','N'])->default('N');
+            $table->enum('status_pengajuan', ['Y','N'])->default('N');
+            $table->enum('status_peminjaman', ['Y','N'])->default('N');
             $table->timestamps();
         });
     }

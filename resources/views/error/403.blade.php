@@ -22,7 +22,10 @@
                 <div class="text-center">
                     <h1 class="error-title">Forbidden</h1>
                     <p class="fs-5 text-gray-600">You are unauthorized to see this page.</p>
-                    <a href="{{route('login')}}" class="btn btn-lg btn-outline-primary mt-3">Go Login</a>
+                    <form action="{{route('logout')}}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-lg btn-outline-primary mt-3">Go Login</button>
+                    </form>
                 </div>
             </div>
         </div>

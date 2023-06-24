@@ -114,7 +114,7 @@
                         $('#myTable').DataTable({
                             processing: true,
                             serverside: true,
-                            ajax: "{{ url('admin/akunAjax') }}",
+                            ajax: "{{ url('admin/master/akunAjax') }}",
                             columns: [{
                                 data: 'DT_RowIndex',
                                 name: 'DT_RowIndex',
@@ -139,12 +139,7 @@
                         });
                     });
 
-                    //GLOBAL SETUP 
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
+                  
 
 
                     //proses simpan

@@ -16,10 +16,11 @@ class UserAccess
     public function handle(Request $request, Closure $next): Response
     {
         //cek sudah login atau belum
-        if(auth()->check()){
-            return $next($request);
+        if(!auth()->check() && auth()->user()->id == Session()->get('id_user')){
+            return redirect()->route('error-403');
         }
-
-        return redirect()->route('error-403');
+        
+        return $next($request);
+        
     }
 }

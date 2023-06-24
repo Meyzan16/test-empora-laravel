@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">   
-    <meta name="csrf-token" content="{{ csrf_token() }}"> 
+    {{-- <meta name="csrf-token" content="{{ csrf_token() }}">  --}}
 
     <title>Dashboard - Mazer Admin Dashboard</title>
 
@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="/template-admin/demo/assets/vendors/bootstrap-icons/bootstrap-icons.css">
     <link rel="stylesheet" href="/template-admin/demo/assets/css/app.css">
     <link rel="shortcut icon" href="/template-admin/demo/assets/images/favicon.svg" type="image/x-icon">
-
+    <link rel="stylesheet" href="/template-admin/demo/assets/vendors/simple-datatables/style.css">
 
 </head>
 
@@ -54,6 +54,14 @@
         </div>
     </div>
     @stack('addon-script')
+
+    <script>
+        window.setTimeout(function() {
+            $(".autohide").fadeTo(500, 0).slideUp(500, function() {
+                $(this).remove();
+            });
+        }, 5000);
+    </script>
     
     <script src="/template-admin/demo/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="/template-admin/demo/assets/js/bootstrap.bundle.min.js"></script>
@@ -66,7 +74,13 @@
 
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-
+    <script src="/template-admin/demo/assets/vendors/simple-datatables/simple-datatables.js"></script>
+    <script src="/template-admin/demo/assets/vendors/fontawesome/all.min.js"></script>
+    <script>
+        // Simple Datatable
+        let table1 = document.querySelector('#table1');
+        let dataTable = new simpleDatatables.DataTable(table1);
+    </script>
 
     <script src="/template-admin/demo/assets/js/main.js"></script>
 

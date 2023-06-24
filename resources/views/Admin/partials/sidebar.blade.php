@@ -12,46 +12,66 @@
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
 
-                <li class="sidebar-item">
                     @if (auth()->user()->roles == '0')
+                    <li class="sidebar-item  {{ request()->is('user') ? 'active' : '' }} ">
                         <a href="{{route('dashboard-user')}}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Dashboard</span>
                         </a>
-                @else
+                    </li>
+                    @else
+                    <li class="sidebar-item  {{ request()->is('admin') ? 'active' : '' }} ">
                         <a href="{{route('dashboard-admin')}}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Dashboard</span>
                         </a>
                         
+                    </li>
                     @endif
-                </li>
                 
-                @if(auth()->user()->roles == '1')
-                <li class="sidebar-item  has-sub">
-                    <a href="#" class='sidebar-link'>
-                        <i class="bi bi-collection-fill"></i>
-                        <span>Setting</span>
-                    </a>
-                    <ul class="submenu ">
-                        <li class="submenu-item ">
-                            <a href="">Master Buku</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="{{ route('akun')}}">Master Anggota</a>
-                        </li>
-                        </li>
-                    </ul>
-                </li>
-                @endif
+                @can('admin')
+                    <li class="sidebar-item {{ request()->is('admin/master*') ? 'active' : '' }} has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-collection-fill"></i>
+                            <span>Setting</span>
+                        </a>
+                        <ul class="submenu ">
+                            <li class="submenu-item ">
+                                <a href="">Master Buku</a>
+                            </li>
+                            <li class="submenu-item  {{ request()->is('admin/master/akun') ? 'active' : '' }}">
+                                <a href="{{ route('akun')}}">Master Anggota</a>
+                            </li>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
 
+                @if (auth()->user()->roles == '0')
+                     <li class="sidebar-item {{ request()->is('user/pengajuan-peminjaman') ? 'active' : '' }} ">
+                        <a href="{{route('pengajuan')}}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Pengajuan buku</span>
+                        </a>
+                    </li>
+                @else
+                        <li class="sidebar-item {{ request()->is('admin/list-pengajuan*') ? 'active' : '' }} ">
+                            <a href="{{route('list-pengajuan-admin')}}"  class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>List Pengajuan</span>
+                            </a>
+                        </li>
+                        
+                        <li class="sidebar-item {{ request()->is('admin/list-peminjaman*') ? 'active' : '' }} ">
+                            <a href="{{route('list-peminjaman-admin')}}"  class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>List Peminjaman</span>
+                            </a>
+                        </li>
+                        
+                    @endif
                 
-                <li class="sidebar-item">
-                    <a href="" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
-                        <span>Pengajuan Buku</span>
-                    </a>
-                </li>
+                
 
               
 

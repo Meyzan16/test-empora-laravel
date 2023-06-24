@@ -12,12 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('buku_models', function (Blueprint $table) {
-            $table->id();
-            $table->string('kode_buku', 4);
-            $table->string('judul_buku', 150);
-            $table->year('tahun_terbit');
-            $table->string('penulis', 150);
-            $table->string('stok', 4);
+            $table->increments('kode_buku');
+            $table->string('judul_buku', 150)->nullable();
+            $table->year('tahun_terbit')->nullable();
+            $table->string('penulis', 150)->nullable();
+            $table->string('stok', 4)->nullable();
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 
 class AuthController extends Controller
@@ -38,6 +39,7 @@ class AuthController extends Controller
         //jika berhasil jalankan script berrikut
         if(Auth::attempt(['username' => $request->username, 'password' => $request->password])){
             if (Auth::check()) {
+                    Session::put('id_user', auth()->user()->id);
                     if (auth()->user()->roles == '1') {
                         $request->session()->regenerate();
                         return \redirect()->intended('/admin')->with('success', 'Selamat datang '. auth()->user()->name.' Admin ' );
