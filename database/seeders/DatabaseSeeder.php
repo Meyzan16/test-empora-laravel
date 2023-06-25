@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
+        //akun seeder
         \App\Models\User::factory()->create([
             'name' => 'Test User',
             'username' => 'user',
