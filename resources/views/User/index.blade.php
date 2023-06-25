@@ -95,6 +95,10 @@
                                                 <span class="badge bg-success">disetujui</span>
                                             </td>
                                             @endif
+                                        @elseif($item->status_pengajuan == 'N')
+                                            <td>
+                                                <span class="badge bg-warning">Menunggu Verifikasi</span>
+                                            </td>
                                         @elseif($item->status_pengajuan == 'ditolak')
                                             <td>
                                                 <span class="badge bg-danger">tidak dilanjutkan</span>
