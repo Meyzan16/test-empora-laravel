@@ -12,7 +12,7 @@ class ListPeminjamanController extends Controller
 {
     public function index()
     {
-        $listLog = LogPengajuanModel::where('status_pengajuan', 'N')->get();
+        $listLog = LogPengajuanModel::where('status_pengajuan', 'N')->orWhere('status_pengajuan', 'ditolak')->get();
         
         return view('Admin.main.Listpengajuan', [
             'listLog' => $listLog,
@@ -30,12 +30,6 @@ class ListPeminjamanController extends Controller
 
     public function verifikasi_pengajuan($id)
     {   
-        LogPengajuanModel::where('id', $id)->update([
-            'id_admin' => auth()->user()->id,
-            'status_pengajuan' => 'Y'
-        ]);
-
-
         $stok = '';
 
         $ambilPengajuan = LogPengajuanModel::where('id', $id)->first();
@@ -44,17 +38,37 @@ class ListPeminjamanController extends Controller
 
         if($ambilstok->stok > $ambilPengajuan->jml_buku_pinjam){
                 $stok =  $ambilstok->stok - $ambilPengajuan->jml_buku_pinjam;
+        }else{
+            return redirect()->route('list-pengajuan-admin')->with('error', 'stok tidak cukup dan stok tersisa '. $ambilstok->stok);
         }
 
         BukuModel::where('kode_buku', $ambilPengajuan->id_kode_buku)->update([
             'stok' => $stok
         ]);
 
+        LogPengajuanModel::where('id', $id)->update([
+            'id_admin' => auth()->user()->id,
+            'status_pengajuan' => 'Y'
+        ]);
+
 
         return redirect()->route('list-pengajuan-admin')->with('success', 'Pengajuan buku berhasil diverifikasi');
     }
 
-    
+    public function verifikasi_pengajuan_tolak($id)
+    {   
+        
+
+        LogPengajuanModel::where('id', $id)->update([
+            'id_admin' => auth()->user()->id,
+            'status_pengajuan' => 'ditolak'
+        ]);
+
+       
+        return redirect()->route('list-pengajuan-admin')->with('success', 'Pengajuan buku berhasil ditolak');
+    }
+
+
     public function verifikasi_pengembalian($id)
     {   
         LogPengajuanModel::where('id', $id)->update([

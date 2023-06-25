@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('tgl_pengembalian')->nullable();
             $table->string('jml_buku_pinjam',4)->nullable();
             $table->foreignId('id_admin')->nullable();
-            $table->enum('status_pengajuan', ['Y','N'])->default('N');
+            $table->enum('status_pengajuan', ['Y','N','ditolak'])->default('N');
             $table->enum('status_peminjaman', ['Y','N'])->default('N');
             $table->timestamps();
         });

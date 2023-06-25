@@ -28,10 +28,8 @@ use Illuminate\Support\Facades\Session;
 // ['middleware' => 'user-access']
 Route::group(['middleware' => 'user-access'], function() {
     
-        Route::group(['middleware' => 'role-access','prefix'  => 'admin/',],function(){
+        Route::group(['middleware' => 'role-admin','prefix'  => 'admin/',],function(){
             Route::get('/',[DashboardController::class, 'index'])->name('dashboard-admin');
-
-         
             Route::group(['prefix'  => 'master/'],function(){
                 Route::get('akun', function() {return view('Admin.main.akun');})->name('akun');
                 Route::resource('akunAjax', AkunController::class);   
@@ -41,15 +39,16 @@ Route::group(['middleware' => 'user-access'], function() {
             Route::get('list-peminjaman',[ListPeminjamanController::class, 'listpeminjaman'])->name('list-peminjaman-admin');
 
             Route::patch('{id}/pengajuan_diterima', [ListPeminjamanController::class, 'verifikasi_pengajuan'])->name('verif_pengajuan_diterima');
+            Route::patch('{id}/pengajuan_ditolak', [ListPeminjamanController::class, 'verifikasi_pengajuan_tolak'])->name('verif_pengajuan_ditolak');
             Route::patch('{id}/pengembalian_diterima', [ListPeminjamanController::class, 'verifikasi_pengembalian'])->name('verif_pengembalian_diterima');
 
         });
 
-        Route::group(['prefix'  => 'user/'],function(){
-            Route::get('/',[DashboardController::class, 'index'])->name('dashboard-user');
-            Route::get('/pengajuan-peminjaman',[PeminjamanController::class, 'index'])->name('pengajuan');
-            Route::post('/peminjaman',[PeminjamanController::class, 'pengajuan'])->name('save-piminjaman');
-            Route::delete('/delete-peminjaman',[PeminjamanController::class, 'destroy'])->name('delete-peminjaman');
+        Route::group(['middleware' => 'role-user','prefix'  => 'user/'],function(){
+            Route::get('/',[DashboardController::class, 'index'])->name('dashboard-user');  
+            Route::get('pengajuan-peminjaman',[PeminjamanController::class, 'index'])->name('pengajuan');
+            Route::post('peminjaman',[PeminjamanController::class, 'pengajuan'])->name('save-piminjaman');
+            Route::delete('delete-peminjaman',[PeminjamanController::class, 'destroy'])->name('delete-peminjaman');
         });
        
     }

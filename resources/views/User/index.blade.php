@@ -47,7 +47,7 @@
                         </div>
         
                         <div class="card-body">
-                            <table class="table table-striped" id="table1">
+                            <table class="table table-striped" id="myTable">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -55,8 +55,8 @@
                                         <th>Tanggal Peminjaman</th>
                                         <th>Tanggal Pengembalian</th>
                                         <th>Jumlah Pinjam</th>
-                                        <th>Status Pengajuan</th>
-                                        <th>Status Peminjaman</th>
+                                        <th>Status pengajuan</th>
+                                        <th>Status pengembalian</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -72,7 +72,11 @@
             
                                         @if ($item->status_pengajuan == 'N')
                                             <td>
-                                                <span class="badge bg-danger">Menunggu Verifikasi</span>
+                                                <span class="badge bg-warning">Menunggu Verifikasi</span>
+                                            </td>
+                                        @elseif($item->status_pengajuan == 'ditolak')
+                                            <td>
+                                                <span class="badge bg-danger">Ditolak</span>
                                             </td>
                                         @else
                                         <td>
@@ -80,34 +84,34 @@
                                         </td>
                                         @endif
 
-                                        @if ($item->status_peminjaman == 'N')
+
+                                        @if($item->status_pengajuan == 'Y')
+                                            @if ($item->status_peminjaman == 'N')
+                                                <td>
+                                                    <span class="badge bg-warning">Menunggu Verifikasi</span>
+                                                </td>
+                                            @else
                                             <td>
-                                                <span class="badge bg-danger">Belum dikembalikan</span>
+                                                <span class="badge bg-success">disetujui</span>
                                             </td>
-                                        @else
-                                        <td>
-                                            <span class="badge bg-success">telah dikembalikan</span>
-                                        </td>
+                                            @endif
+                                        @elseif($item->status_pengajuan == 'ditolak')
+                                            <td>
+                                                <span class="badge bg-danger">tidak dilanjutkan</span>
+                                            </td>
                                         @endif
 
-                                        @if ($item->status_peminjaman != 'Y')
-                                           
+
+                                        @if ($item->status_pengajuan == 'N')
                                             <td>
-                                                <form action="{{route('delete-peminjaman')}}" method="POST">
-                                                    @csrf @method('delete')
-                                                    <input type="hidden" value="{{$item->id}}" name="id_delete">
-                                                    <button type="submit" class="btn btn-danger btn-outline-danger d-flex">
-                                                      delete
-                                                    </button>
-                                                </form>
+                                                <a href='#' data-id="{{ $item->id }}" class="btn btn-danger btn-sm tombol-del">Delete</a>
                                             </td>
-                                              
                                         @else
                                         <td>
-                                            <span class="badge bg-success"> - </span>
+                                            <span class="badge bg-success">-</span>
                                         </td>
                                         @endif
-                 
+                                        
                                     </tr>
                                     
                                     @endforeach
@@ -150,7 +154,7 @@
                         <h6 class="modal-title" id="exampleModalCenterTitle" aria-required="true"> Tanggal peminjaman  </h6>
                         <input type="date" class="form-control" name="tgl_peminjaman" id="tgl_peminjaman">
                     </div>
-                
+
                     <div>
                         <h6 class="modal-title" id="exampleModalCenterTitle" aria-required="true"> Tanggal pengembalian  </h6>
                         <input type="date" class="form-control" name="tgl_pengembalian" id="tgl_pengembalian">

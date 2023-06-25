@@ -137,10 +137,7 @@
                                 name: 'Aksi'
                             }]
                         });
-                    });
-
-                  
-
+                    });               
 
                     //proses simpan
                     $('body').on('click', '.tombol-tambah', function(e) {

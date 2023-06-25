@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserAccess
+class RoleAdmin
 {
     /**
      * Handle an incoming request.
@@ -15,12 +15,11 @@ class UserAccess
      */
     public function handle(Request $request, Closure $next): Response
     {
-        //cek sudah login atau belum
-        if(!auth()->check()){
-            return redirect()->route('error-403');
+        //cek roles
+        if(auth()->user()->roles == '1'){
+            return $next($request);
         }
-        
-        return $next($request);
-        
+
+        return redirect()->route('error-403');
     }
 }

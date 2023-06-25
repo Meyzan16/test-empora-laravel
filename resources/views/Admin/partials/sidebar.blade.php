@@ -39,7 +39,7 @@
                             <li class="submenu-item ">
                                 <a href="">Master Buku</a>
                             </li>
-                            <li class="submenu-item  {{ request()->is('admin/master/akun') ? 'active' : '' }}">
+                            <li class="submenu-item  {{ request()->is('admin/master/akun*') ? 'active' : '' }}">
                                 <a href="{{ route('akun')}}">Master Anggota</a>
                             </li>
                             </li>

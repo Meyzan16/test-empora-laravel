@@ -73,7 +73,11 @@
             
                                         @if ($item->status_pengajuan == 'N')
                                             <td>
-                                                <span class="badge bg-danger">Menunggu Verifikasi</span>
+                                                <span class="badge bg-warning">Menunggu Verifikasi</span>
+                                            </td>
+                                        @elseif($item->status_pengajuan == 'ditolak')
+                                            <td>
+                                                <span class="badge bg-danger">Ditolak</span>
                                             </td>
                                         @else
                                         <td>
@@ -84,6 +88,7 @@
 
                                         <td>
                                             <a class="badge bg-success"   data-bs-toggle="modal" data-bs-target="#exampleModalTerima{{ $item->id }}">   <i class="fa fa-check-circle"> </i>  </a>
+                                            <a class="badge bg-danger"   data-bs-toggle="modal" data-bs-target="#exampleModalTolak{{ $item->id }}">   <i class="fa fa-ban"> </i>  </a>
                                         </td>
                  
                                     </tr>
@@ -142,6 +147,51 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
                     
                 
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+@endforeach
+
+@foreach($listLog as $item2)
+<div class="modal fade" id="exampleModalTolak{{$item2->id}}" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
+    role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle"> Validasi Ditolak {{ $item1->user_pengguna->name}}
+            </h5>
+            <button type="button" class="close" data-bs-dismiss="modal"
+                aria-label="Close">
+                <i data-feather="x"></i>
+            </button>
+        </div>
+        <form action="{{ route('verif_pengajuan_ditolak', $item2->id)}}" method="POST">
+            @csrf {{ method_field('PATCH') }}
+            <div class="modal-body">
+
+                <p class="text-center">
+                    Perhatian !!!
+                   Anda yakin menolak pengajuan peminjaman buku ?
+                </p>
+
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-secondary"
+                    data-bs-dismiss="modal">
+                    <i class="bx bx-x d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">kembali</span>
+                </button>
+
+                    <button type="submit" class="btn btn-primary ml-1">
+                        <i class="bx bx-check d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block" >ditolak</span>
+                    </button>  
+               
+
             </div>
         </form>
     </div>
