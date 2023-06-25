@@ -39,10 +39,10 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Nama</th>
-                                        <th>Email</th>
-                                        <th>Username</th>
-                                        <th>Roles</th>
+                                        <th>Judul buku</th>
+                                        <th>Tahun terbit</th>
+                                        <th>Penulis</th>
+                                        <th>Stok</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -68,33 +68,26 @@
                         <div class="alert alert-success d-none"></div>
 
                         <div>
-                            <h6 class="modal-title" id="exampleModalCenterTitle" aria-required="true"> NAMA  </h6>
-                        <input type="text" class="form-control" name="name" id="name">
+                            <h6 class="modal-title" id="exampleModalCenterTitle" aria-required="true"> judul buku  </h6>
+                        <input type="text" class="form-control" name="judul_buku" id="judul_buku">
                         </div>
                         <div>
-                            <h6 class="modal-title" id="exampleModalCenterTitle" aria-required="true"> EMAIL  </h6>
-                            <input type="text" class="form-control" name="email" id="email">
+                            <h6 class="modal-title" id="exampleModalCenterTitle" aria-required="true"> tahun terbit  </h6>
+                            <input type="text" class="form-control" name="tahun_terbit" id="tahun_terbit">
                         </div>
                     
 
                         <div>
-                            <h6 class="modal-title" id="exampleModalCenterTitle" aria-required="true"> USERNAME  </h6>
-                        <input type="text" class="form-control" name="username" id="username">
+                            <h6 class="modal-title" id="exampleModalCenterTitle" aria-required="true"> penulis  </h6>
+                        <input type="text" class="form-control" name="penulis" id="penulis">
                         </div>
                     
                         <div>
-                            <h6 class="modal-title" id="exampleModalCenterTitle" aria-required="true"> PASSWORD  </h6>
-                            <input type="text" class="form-control" name="password" id="password">
+                            <h6 class="modal-title" id="exampleModalCenterTitle" aria-required="true"> stok  </h6>
+                            <input type="text" class="form-control" name="stok" id="stok">
                         </div>
                         
-                        <div>
-                            <h6 class="modal-title" id="exampleModalCenterTitle" aria-required="true"> STATUS AKUN  </h6>
-                            <select name="roles" id="roles" class="form-control" >
-                                <option value=""> --pilih data--</option>
-                                <option value="0">PENGGUNA</option>
-                                <option value="1">ADMIN</option>
-                            </select>
-                        </div>
+                      
                         <!-- AKHIR FORM -->
                     </div>
                     <div class="modal-footer">
@@ -108,37 +101,35 @@
         @push('prepend-script')
                 
                 <script>
-                    
-
                     $(document).ready(function() {
                         $('#myTable').DataTable({
                             processing: true,
                             serverside: true,
-                            ajax: "{{ url('api/akun') }}",
+                            ajax: "{{ url('api/books') }}",
                             columns: [{
                                 data: 'DT_RowIndex',
                                 name: 'DT_RowIndex',
                                 orderable: false,
                                 searchable: false
                             }, {
-                                data: 'name',
-                                name: 'Nama'
+                                data: 'judul_buku',
+                                name: 'Judul Buku'
                             }, {
-                                data: 'email',
-                                name: 'Email'
+                                data: 'tahun_terbit',
+                                name: 'Tahun tebrit'
                             }, {
-                                data: 'username',
-                                name: 'Username'
+                                data: 'penulis',
+                                name: 'Penulis'
                             }, {
-                                data: 'roles',
-                                name: 'Roles'
-                            },  {
+                                data: 'stok',
+                                name: 'Stok'
+                            }, {
                                 data: 'aksi',
                                 name: 'Aksi'
                             }]
                         });
-                    });               
-
+                    });          
+                    
                     //proses simpan
                     $('body').on('click', '.tombol-tambah', function(e) {
                         e.preventDefault();
@@ -152,30 +143,31 @@
                     $('body').on('click', '.tombol-edit', function(e) {
                         var id = $(this).data('id');
                         $.ajax({
-                            url: 'http://127.0.0.1:8000/api/akun/' + id,
+                            url: 'http://127.0.0.1:8000/api/books/' + id,
                             type: 'GET',
                             success: function(response) {
                                 $('#exampleModal').modal('show');
-                                $('#name').val(response.result.name);
-                                $('#email').val(response.result.email);
-                                $('#username').val(response.result.username);
-                                $('#roles').val(response.result.roles);
+                                $('#judul_buku').val(response.result.judul_buku);
+                                $('#tahun_terbit').val(response.result.tahun_terbit);
+                                $('#penulis').val(response.result.penulis);
+                                $('#stok').val(response.result.stok);
                                 console.log(response.result);
                                 $('.tombol-simpan').click(function() {
                                     simpan(id);
                                 });
+                                
                             }
                         });
 
                     });
-            
 
-                    //delete
-                    $('body').on('click', '.tombol-del', function(e) {
+
+                     //delete
+                     $('body').on('click', '.tombol-del', function(e) {
                         if (confirm('Yakin mau hapus data ini?') == true) {
                             var id = $(this).data('id');
                             $.ajax({
-                                url: 'http://127.0.0.1:8000/api/akun/' + id,
+                                url: 'http://127.0.0.1:8000/api/books/' + id,
                                 type: 'DELETE',
                                 success: function(response) {
                                     if (response.success) {
@@ -196,22 +188,21 @@
 
                     function simpan(id = '') {  
                         if (id == '') {
-                            var var_url = 'http://127.0.0.1:8000/api/akun/'
+                            var var_url = 'http://127.0.0.1:8000/api/books';
                             var var_type = 'POST';
                         } else {
-                            var var_url = 'http://127.0.0.1:8000/api/akun/' + id;
-                            var var_type = 'PATCH';
+                            var var_url = 'http://127.0.0.1:8000/api/books/' + id;
+                            var var_type = 'PUT';
                         }
 
                         $.ajax({
                             url: var_url,
                             type: var_type,
                             data: {
-                                name: $('#name').val(),
-                                email: $('#email').val(),
-                                username: $('#username').val(),
-                                password: $('#password').val(),
-                                roles: $('#roles').val()
+                                judul_buku: $('#judul_buku').val(),
+                                tahun_terbit: $('#tahun_terbit').val(),
+                                penulis: $('#penulis').val(),
+                                stok: $('#stok').val(),
                             },
                             success: function(response) {
                                 if (response.errors) {
@@ -233,17 +224,18 @@
                         });
                     }
 
-                    
+                      
                     $('#exampleModal').on('hidden.bs.modal', function() {
-                        $('#nama').val('');
-                        $('#email').val('');
-                        $('#username').val('');
-                        $('#password').val('');
+                        $('#judul_buku').val('');
+                        $('#tahun_terbit').val('');
+                        $('#penulis').val('');
+                        $('#stok').val('');
+                        // $('#roles').val('');
 
-                        $('.alert-danger').addClass('d-none ');
+                        $('.alert-danger').addClass('d-none');
                         $('.alert-danger').html('');
 
-                        $('.alert-success').addClass('d-none ');
+                        $('.alert-success').addClass('d-none');
                         $('.alert-success').html('');
                     });
 

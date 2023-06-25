@@ -55,7 +55,7 @@ class AkunController extends Controller
         }
     }
 
-    public function edit($id)
+    public function show($id)
     {
         $data = user::where('id', $id)->first();
         return response()->json(['result' => $data]);

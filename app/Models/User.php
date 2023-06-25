@@ -13,6 +13,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    // protected $guard = "user";
+
     public function LogPengajuanModel()
     {
         return $this->hasMany(LogPengajuanModel::class);

@@ -36,8 +36,8 @@
                             <span>Setting</span>
                         </a>
                         <ul class="submenu ">
-                            <li class="submenu-item ">
-                                <a href="">Master Buku</a>
+                            <li class="submenu-item {{ request()->is('admin/master/books*') ? 'active' : '' }}">
+                                <a href={{ route('books')}}>Master Buku</a>
                             </li>
                             <li class="submenu-item  {{ request()->is('admin/master/akun*') ? 'active' : '' }}">
                                 <a href="{{ route('akun')}}">Master Anggota</a>

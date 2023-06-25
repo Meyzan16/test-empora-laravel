@@ -32,8 +32,10 @@ Route::group(['middleware' => 'user-access'], function() {
             Route::get('/',[DashboardController::class, 'index'])->name('dashboard-admin');
             Route::group(['prefix'  => 'master/'],function(){
                 Route::get('akun', function() {return view('Admin.main.akun');})->name('akun');
-                Route::resource('akunAjax', AkunController::class);   
+                Route::get('books', function() {return view('Admin.main.books');})->name('books');
             });
+
+
 
             Route::get('list-pengajuan',[ListPeminjamanController::class, 'index'])->name('list-pengajuan-admin');
             Route::get('list-peminjaman',[ListPeminjamanController::class, 'listpeminjaman'])->name('list-peminjaman-admin');
